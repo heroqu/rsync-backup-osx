@@ -188,9 +188,6 @@ DEST_BASE=$(real_path "${BACKUP_PATH}/${SOURCE_BASE}")
 # directory to place new backup to
 BK_TMP="${DEST_BASE}.${TIME_STAMP}.$(rndstr8).tmp"
 
-# echo "BK_TMP: [$BK_TMP]"
-# exit 0
-
 mkdir -p "$BK_TMP"
 
 # "Permanent" pointer to the most recent backup
@@ -198,7 +195,7 @@ mkdir -p "$BK_TMP"
 BK_LAST_LINK="${DEST_BASE}.last_link"
 
 # if such a pointer was set in some earlier backup,
-# then now we can retrieve up physical path to last backup directory:
+# then now we can retrieve physical path to last backup directory:
 
 BK_LAST=$($READLINK_UTIL -e $BK_LAST_LINK)
 
@@ -246,9 +243,6 @@ rsync failed
 Date: $TIME_STAMP
 Exit status: $RSYNC_EXIT_STATUS
 EOF
-    # echo "rsync failed" > "$BK_ERR"
-    # echo $TIME_STAMP >> "$BK_ERR"
-    # echo $RSYNC_EXIT_STATUS >> "$BK_ERR"
 fi
 
 # renaming
