@@ -57,5 +57,23 @@ if run 3 time in 3 days will result in:
   /Volumes/BK_DISK/home_backups/_ROOT_.last_link -> _ROOT_.2015-05-27_110303
   ```
 
+### Sample exclude file contents
 
+```
+.Spotlight-*/
+.Trashes
+/afs/*
+/automount/*
+/cores/*
+/dev/*
+/Network/*
+/private/tmp/*
+/private/var/run/*
+/private/var/spool/postfix/*
+/private/var/vm/*
+/Previous Systems.localized
+/tmp/*
+/Volumes/*
+*/.Trash
+```
  
