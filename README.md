@@ -20,10 +20,10 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 ### Ideas and features
 
 - script should use hardlinking to last successful backup of "similar signature" to save space and time
-  - there two ways to do it I know of: ```cp -l``` and ```rsync --link-dest```, I've choosen the first one
+  - there are two ways to do it I know of: ```cp -l``` and ```rsync --link-dest```, I've choosen the first one
 - no deletion of older backups
   - no need for me personally yet. Simple to do with numbered style of backuping when dirs are named bk.0, bk.1, bk.N - just shift dirs by 1 and delete the biggest numbered one. 
-  Little more complicated if naming scheme is bk.2015-05-29, bk.2015-05-28 etc. - one can parse suffixes or just rely on creation date. Again, I don't need it yet.
+  Little more complicated if naming scheme is ```bk.2015-05-29```, ```bk.2015-05-28``` etc. - one can parse suffixes or just rely on creation date. Again, I don't need it yet.
   - use of exclude file
   - date-time suffix naming scheme:
   
@@ -50,14 +50,47 @@ Another one:
 ```
 sudo ./rsync-backup.sh -p daily / /Volumes/BK_DISK/full_backups
 ```
-if run 3 time in 3 days will result in:
+if run 3 times in 3 days will result in:
 
-  ``` shell
+  ```
   /Volumes/BK_DISK/home_backups/_ROOT_.2015-05-25_110101
   /Volumes/BK_DISK/home_backups/_ROOT_.2015-05-26_120202
   /Volumes/BK_DISK/home_backups/_ROOT_.2015-05-27_110303
   /Volumes/BK_DISK/home_backups/_ROOT_.last_link -> _ROOT_.2015-05-27_110303
   ```
+again, last line show a symlink which always poits to the most recent backup directory.
+
+### Installing GNU utils on Mac OSX
+
+One can install better, newer and more shiny POSIX compliant utils with Homebrew:
+
+```
+brew install coreutils
+```
+One gets ```gcp``` (GNU cp), ```greadlink``` (GNU readlink) and a whole bunch of other fundamental utilities.
+
+Rsync is not part of core utilis, so it can be installed separately:
+```
+brew tap homebrew/dupes
+brew install rsync
+```
+All of them are reachable under
+```
+/usr/local/bin
+```
+while Mac system utils are under 
+```
+/usr/bin
+```
+
+In this script we are addressing them as follows
+```
+/usr/local/bin/rsync
+/usr/local/bin/gcp
+/usr/local/bin/greadlink
+```
+Replacing older utils with this newer ones is possible but may break Mac functions to certain extent. The same is true to the idea of change the order of PATH elements by pushing /usr/local/bin to the top in ```/etc/paths``` file. This would effectively make Homebrew rsync come out first in lookup, but changing the path can break the system. So, the slim way to civilize Mac ecosystem is to have this parallel setup.
+
 
 ### Sample exclude file contents
 
@@ -78,4 +111,7 @@ if run 3 time in 3 days will result in:
 /Volumes/*
 */.Trash
 ```
- 
+
+### TODO
+- create sample of crontab that do daily, weekly and monthly backups
+- implement some deletion scheme for older backups
