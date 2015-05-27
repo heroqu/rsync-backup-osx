@@ -22,8 +22,8 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 - script should use hardlinking to last successful backup of "similar signature" to save space and time
   - there two ways to do it I know of: ```cp -l``` and ```rsync --link-dest```, I've choosen the first one
 - no deletion of older backups
-  - no need for me personally yet. Simple to do with numbered style of backuping when dirs are named bk.0, bk.1, bk.N - just shift dirs by 1 and delete the last opne. 
-  Little more complicated if nameing scheme is bk.20150529, bk.20150528 etc. - one can parse suffixes or just rely on creation date. Again, I don't need it yet.
+  - no need for me personally yet. Simple to do with numbered style of backuping when dirs are named bk.0, bk.1, bk.N - just shift dirs by 1 and delete the biggest numbered one. 
+  Little more complicated if naming scheme is bk.2015-05-29, bk.2015-05-28 etc. - one can parse suffixes or just rely on creation date. Again, I don't need it yet.
   - use of exclude file
   - date-time suffix naming scheme:
   
