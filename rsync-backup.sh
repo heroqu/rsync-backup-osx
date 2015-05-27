@@ -264,22 +264,4 @@ fi
 
 exit $RSYNC_EXIT_STATUS
 
-############################################################
-
-# Sample exclude file contents (uncomment lines before coping):
-
-# .Spotlight-*/
-# .Trashes
-# /afs/*
-# /automount/*
-# /cores/*
-# /dev/*
-# /Network/*
-# /private/tmp/*
-# /private/var/run/*
-# /private/var/spool/postfix/*
-# /private/var/vm/*
-# /Previous Systems.localized
-# /tmp/*
-# /Volumes/*
-# */.Trash
+#
