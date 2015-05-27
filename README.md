@@ -28,7 +28,6 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
   - date-time suffix naming scheme:
   
   ```
-  ls -la
   /Volumes/BK_DISK/home_backups/john.2015-05-28_235958
   /Volumes/BK_DISK/home_backups/john.2015-05-29_215233
   /Volumes/BK_DISK/home_backups/john.2015-05-30_120144
@@ -43,13 +42,13 @@ here ```john.last_link``` is symlink to most recent backup directory ```john.201
 ### Sample usage
 
 ```
-sudo rsync-backup.sh /Users/john /Volumes/BK_DISK/home_backups
+sudo ./rsync-backup.sh /Users/john /Volumes/BK_DISK/home_backups
 ```
 this command if you run it few times will produce the resulting directory structure as above.
 
 Another one:
 ```
-sudo rsync-backup.sh -p daily / /Volumes/BK_DISK/full_backups
+sudo ./rsync-backup.sh -p daily / /Volumes/BK_DISK/full_backups
 ```
 if run 3 time in 3 days will result in:
 
