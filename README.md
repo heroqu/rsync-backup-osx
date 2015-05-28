@@ -8,7 +8,7 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 
 ### Credits and inspiration
 
-+ Some [enlightment](http://www.jwz.org/blog/2007/09/psa-backups/) from Jamie Zawinskithat to heal the brain 
++ Some [enlightment](http://www.jwz.org/blog/2007/09/psa-backups/) from Jamie Zawinski to heal the brain 
 + Mike Rubel arctile - great short 'Intro' reading on backup strategies and hardlinking 
   - [Easy Automated Snapshot-Style Backups with Linux and Rsync](http://www.mikerubel.org/computers/rsync_snapshots/)
 + Noah's backup script:
