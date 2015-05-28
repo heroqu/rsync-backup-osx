@@ -9,13 +9,9 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 ### Credits and inspiration
 
 + Some [enlightment](http://www.jwz.org/blog/2007/09/psa-backups/) from Jamie Zawinski to heal the brain 
-+ Mike Rubel arctile - great short 'Intro' reading on backup strategies and hardlinking 
-  - [Easy Automated Snapshot-Style Backups with Linux and Rsync](http://www.mikerubel.org/computers/rsync_snapshots/)
-+ Noah's backup script:
-  - [here](http://www.noah.org/wiki/Rsync_backup) and 
-  - [here](https://gist.github.com/elundmark/7183083)
-+ Great blog & script by Nicolas Gallagher:
-  - [here](http://nicolasgallagher.com/mac-osx-bootable-backup-drive-with-rsync)
++ Mike Rubel [Easy Automated Snapshot-Style Backups with Linux and Rsync](http://www.mikerubel.org/computers/rsync_snapshots/) arctile - great short 'Intro' reading on backup strategies and hardlinking.
++ Noah's backup [script](http://www.noah.org/wiki/Rsync_backup).
++ Great [blog & script](http://nicolasgallagher.com/mac-osx-bootable-backup-drive-with-rsync) by Nicolas Gallagher.
 + All of you wonderful guys who blog and github and share your tips and thoughts on bash, rsync and all the rest. 
 
 ### Ideas and features
