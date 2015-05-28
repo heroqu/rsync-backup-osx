@@ -52,11 +52,11 @@ usage () {
   cat <<EOF
 
  usage:
-  $0 [-p PERIODICITY] [-v] SOURCE_PATH BACKUP_PATH
+  $0 [-t TAG] [-v] SOURCE_PATH BACKUP_PATH
   SOURCE_PATH and BACKUP_PATH may be ssh-style remote paths; although,
   BACKUP_PATH is usually a local directory where you want
     the backup set stored.
-  -p : PERIODICITY.
+  -t : TAG.
       Can be one of 'daily','weekly','monthly', 'yearly' or omitted.
   -v : set verbose mode.
 
@@ -69,19 +69,19 @@ EOF
 
 # defaults:
 VERBOSE=0
-PERIODICITY=''
+TAG=''
 
 # options
 while getopts "vp:h" opt; do
   case $opt in
     v) VERBOSE=1;;
     # n ) NORMALIZE_PERMS=1;;
-    p)
+    t)
       case $OPTARG in
-        daily) PERIODICITY='.daily';;
-        monthly) PERIODICITY='.monthly';;
-        weekly) PERIODICITY='.weekly';;
-        yearly) PERIODICITY='.yearly';;
+        daily) TAG='.daily';;
+        monthly) TAG='.monthly';;
+        weekly) TAG='.weekly';;
+        yearly) TAG='.yearly';;
       esac
     ;;
     h) usage
@@ -249,7 +249,7 @@ fi
 
 if [ $RSYNC_EXIT_STATUS -eq 0 ] ; then
   # backup was successful. Bestow it with a shiny new name:
-  BK_LAST="$DEST_BASE.${TIME_STAMP}${PERIODICITY}"
+  BK_LAST="$DEST_BASE.${TIME_STAMP}${TAG}"
   mv "$BK_TMP" "$BK_LAST"
 
   # update permanent link to most recent successful backup directory
