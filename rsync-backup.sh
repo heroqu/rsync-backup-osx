@@ -72,7 +72,7 @@ VERBOSE=0
 TAG=''
 
 # options
-while getopts "vp:h" opt; do
+while getopts "vt:h" opt; do
   case $opt in
     v) VERBOSE=1;;
     # n ) NORMALIZE_PERMS=1;;
