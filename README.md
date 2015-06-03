@@ -1,6 +1,6 @@
 # rsync-backup-osx
 
-Rsync based backup script for ** NIX systems, especially adapted for *Mac OS*
+Rsync based backup script for \*NIX systems, especially adapted for *Mac OS*
 
 ### Motivation
 
