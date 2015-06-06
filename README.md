@@ -4,7 +4,7 @@ Rsync based backup script for \*NIX systems, especially adapted for *Mac OS*
 
 ### Motivation
 
-Use most simple and reliable rsync + crontab backup scheme that would effectively replace time-machine functionality
+Use most simple and reliable *rsync + crontab* backup strategy that would effectively replace time-machine functionality of Mac OSX.
 
 ### Credits and inspiration
 
@@ -20,14 +20,15 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 - script should use hard linking to last successful backup of "similar signature" to save space and time
   - there are two ways to do it I know of: ```cp -l``` and ```rsync --link-dest```, I've chosen the first one
 - should be simple to use and setup
-  - use crontab
+  - use root crontab for scheduling
 - Be adjusted to Mac OSX environment which is often filled with outright outdated UNIX utils
   - use fresh GNU utils instead
 - no deletion of older backups
-  - no need for me personally yet. Simple to do with numbered style of backing up when directories are named bk.0, bk.1, bk.N - just shift dirs by 1 and delete the biggest numbered one.
-  Little more complicated if naming scheme is ```bk.2015-05-29```, ```bk.2015-05-28``` etc. - one can parse suffixes or just rely on creation date. Again, I don't need it yet.
-- use of exclude file
-- date-time suffix naming scheme:
+  - no need for me personally yet.
+    - Would be simple to accomplish with numbered scheme when destination directories are named ```bk.0```, ```bk.1```, ```bk.N``` - just shift dirs by 1 and delete the biggest numbered one.
+    - Little more complicated if naming scheme is based on time stamping ```bk.2015-05-29```, ```bk.2015-05-28``` etc. In this case one can parse suffixes or just rely on creation date. Again, I personally don't need it yet.
+- exclude list usage in to prevent certain directories from archiving.
+- Use time stamp suffix naming scheme:
 
 ```
 /Volumes/BK_DISK/home_backups/john.2015-05-28_235958
@@ -36,8 +37,7 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 /Volumes/BK_DISK/home_backups/john.last_link -> john.2015-05-30_120144
 ...
 ```
-
-here ```john.last_link``` is symlink to most recent backup directory ```john.2015-05-30_120144```
+- Use a symlink to the recent most backup as a layer of indirection to simplify finding last backup for the purpose of hardlinking. This symlink is to be updated after each new backup. This approach eliminates the necessity of 'round robin' way of renaming all previous backups. No need to rename anything, just keep a symlink to the last backup. If symlink is not there or is broken - one can recreate it manually. In the above listing ```john.last_link``` is that symlink to most recent backup directory ```john.2015-05-30_120144```.
 
 - Tagging backups with 'daily', 'weeky', 'monthly' or 'yearly' suffixes.
   - Read [About TAGs](#about_tags) section for rationale behind using these TAGs.
