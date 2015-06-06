@@ -39,8 +39,8 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 
 here ```john.last_link``` is symlink to most recent backup directory ```john.2015-05-30_120144```
 
-  - use of 'daily', 'weeky', 'monthly' and 'yearly' tags
-    - these tags needs little explanation. Actually they can (and should) all live in the same destination directory and share one the same 'last backup' to hard link to.
+- Tagging backups with 'daily', 'weeky', 'monthly' or 'yearly' suffixes.
+  - Read [About TAGs](#about_tags) section for rationale behind using these TAGs.
 
 ### Sample usage
 
@@ -66,7 +66,7 @@ if run 3 times in 3 days will result in:
 ```
 again, last line show a symlink which always points to the most recent backup directory.
 
-### About TAGs
+### [About TAGs](#about_tags)
 
 It looks like TAGs do nothing special except adding suffix to each of backup directories. But what is not so obvious is that if backups with different TAGs are specified to use the same base destination directory, then they do effectively use one and the same 'hard-linking trunk': each backup becomes the 'last' and is a target for 'last_link' symlink. This approach makes sense when we backup one and the same source directory so that backups do differ only by the time they are made.
 
