@@ -64,7 +64,8 @@ if run 3 times in 3 days will result in:
 ```
 again, last line show a symlink which always points to the most recent backup directory.
 
-### About TAGs<a name="about_tags"></a>
+<a name="about_tags"></a>
+### About TAGs
 
 It looks like TAGs do nothing special except adding suffix to each of backup directories. But what is not so obvious is that if backups with different TAGs are specified to use the same base destination directory, then they do effectively use one and the same 'hard-linking trunk': each backup becomes the 'last' and is a target for 'last_link' symlink. This approach makes sense when we backup one and the same source directory so that backups do differ only by the time they are made.
 
