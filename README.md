@@ -136,8 +136,10 @@ In this script we are addressing them as follows
 /usr/local/bin/gcp
 /usr/local/bin/greadlink
 ```
-Replacing older utils with this newer ones is possible but may break Mac functions to certain extent. The same is true to the idea of change the order of PATH elements by pushing /usr/local/bin to the top in ```/etc/paths``` file. This would effectively make Homebrew rsync come out first in lookup, but changing the path can break the system. So, the slim way to civilize Mac ecosystem is to have this parallel setup.
 
+From time to time people are talking about a radical way when one just replace stale Mac's utils with newer ones or little less radical solution of modifying ```$PATH``` variable so that ```/usr/local/bin``` would go first compared to ```/usr/bin```. The latter can be accomplished by alternating the lines order in ```/etc/paths``` file and it would effectively result in shadowing Mac's utils with utils installed by user (e.g. with Homebrew) under ```/usr/local/bin```. So far so good, except for it could also lead to both breaking some Mac OSX functioning and to the risk of malicious install to shadow system utils. Read Aristotle Pagaltzis' [answer]( http://superuser.com/questions/324616/how-should-i-set-the-path-variable-on-my-mac-so-the-hombrew-installed-tools-are) which elaborates on this or [this post](https://discussions.apple.com/thread/3588837?start=0&tstart=0 ).
+
+For these reasons we stick to independent setup of GNU utils instead.
 
 ### Sample exclude file contents
 
