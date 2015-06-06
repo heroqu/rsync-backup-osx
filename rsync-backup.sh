@@ -93,8 +93,8 @@ while getopts "t:x:vh" opt; do
       EXCLUDE_FROM=$($READLINK_UTIL -f $OPTARG);
       if [ ! -f $EXCLUDE_FROM ]; then
         echo
-        echo "file specified in '-x EXCLUDE_FROM' option is not found"
-        echo "  $FILEPATH"
+        echo "file specified in '-x EXCLUDE_FROM' option is not found:"
+        echo "  $OPTARG"
         echo
         usage
         exit 1
