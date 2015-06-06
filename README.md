@@ -113,7 +113,7 @@ $
 ```
 Again, each time '_ROOT_.last_link' would point to the recent most backup - be it daily, weekly or monthly one - they all have equal human rights for this purpose.
 
-Should we decide at some point in time we don't need older daily backups - we can safely delete any of them (except the last one) without breaking anything. Hardlinks are deaf to deletion of their kins. If we delete the most recent backup - we might consider manually recreating the broken symlink so that it would point to the backup directory that stayed. If current symlink is broken or absent, then no hardl-inking occur and whole new 'hard-link trunk' is started and we waste hard disk space almost equal to the size of the backup.  
+Should we decide at some point in time we don't need older daily backups - we can safely delete any of them (except the last one) without breaking anything. Hardlinks are deaf to deletion of their kins. If we delete the most recent backup - we might consider manually recreating the broken symlink so that it would point to the backup directory that stayed. If current symlink is broken or absent, then no hardlinking occur and whole new 'hard-link trunk' is started anew and we waste hard disk space amount pactically  equal to the size of the full backup.  
 
 ### Installing GNU utils on Mac OSX
 
