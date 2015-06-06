@@ -59,8 +59,9 @@ usage () {
   SOURCE_PATH and BACKUP_PATH may be ssh-style remote paths; although,
   BACKUP_PATH is usually a local directory where you want
     the backup set stored.
-  -t : TAG.
-         Can be one of 'daily','weekly','monthly', 'yearly' or omitted.
+  -t : TAG
+         Can be one of 'hourly','daily','weekly','monthly','yearly' or omitted.
+         No suffix is added if TAG is omitted.
   -x : explicitly set the FILE for the following rsync option:
          "--exclude-from=FILE     read exclude patterns from FILE"
        when omitted, the following default value will be used:
@@ -83,6 +84,7 @@ while getopts "t:x:vh" opt; do
   case $opt in
     t)
       case $OPTARG in
+        hourly) TAG='.hourly';;
         daily) TAG='.daily';;
         monthly) TAG='.monthly';;
         weekly) TAG='.weekly';;
