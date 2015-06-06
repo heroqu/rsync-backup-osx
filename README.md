@@ -68,9 +68,9 @@ again, last line show a symlink which always points to the most recent backup di
 
 It looks like TAGs do nothing special except adding suffix to each of backup directories. But what is not so obvious is that if backups with different TAGs are specified to use the same base destination directory, then they do effectively use one and the same 'hard-linking trunk': each backup becomes the 'last' and is a target for 'last_link' symlink. This approach makes sense when we backup one and the same source directory so that backups do differ only by the time they are made.
 
-Otherwise TAGs are no more then mere a suffix which helps are visually separate backups.
+Otherwise TAGs are no more then mere a suffix which helps to separate backups visually.
 
-Let's loot at simple example backup plan to illustrate the point. Here is the crontab (root priviledged one) where we schedule 3 flavors (use 3 tags - 'daily', 'weekly' and 'montly') of backups with the same destination base directory like this (sudo crontab -l):
+Let's look at simple example backup plan to illustrate the point. Here is the crontab (root privileged one) where we schedule 3 backup 'flavors' ('daily', 'weekly' and 'monthly') while specify the same destination base directory for all of them:
 
 ```
 $ sudo crontab -l)
@@ -83,7 +83,7 @@ DEST="/Volumes/BK_DISK/full_backups"
 $
 ```
 
-Very soon this setup is going to produce the following:
+Few days later we get the following result:
 
 ```
 $ ls -l
