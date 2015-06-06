@@ -77,16 +77,24 @@ Let's look at simple example backup plan to illustrate the point. Here is the cr
 
 ```
 $ sudo crontab -l
+SRC="/"
 SCRPT="/Users/john/scripts/rsync-backup.sh"
 DEST="/Volumes/BK_DISK/full_backups"
 
-0 10 * * 0-5 $SCRPT -t daily / $DEST
-0 11 * * 6 $SCRPT -t weekly / $DEST
-0 12 1 * * $SCRPT -t monthly / $DEST
+0 10 * * 0-5 $SCRPT -t daily $SRC $DEST
+0 11 * * 6 $SCRPT -t weekly $SRC $DEST
+0 12 1 * * $SCRPT -t monthly $SRC $DEST
 $
 ```
+What is says is that:
+- we want to do backups at 3 different schedules
+- each of these schedules will backup whole root file system (SRC="/")
+- each of these schedules will put backups to the same base destination directory "/Volumes/BK_DISK/full_backups"
+- first 6 days of the week backups will happen at 10:00 and get suffix (TAG) 'daily'
+- on 7th day (Satturday) the backup will happen at 11:00 and with suffix 'weekly'
+- on the 1st of each month the backup is going to start at 12:00 and get suffix 'monthly'
 
-Few days later we get the following result:
+9 days later we get the following result:
 
 ```
 $ ls -l
@@ -105,7 +113,7 @@ $
 ```
 Again, each time '_ROOT_.last_link' would point to the recent most backup - be it daily, weekly or monthly one - they all have equal human rights for this purpose.
 
-Should we decide at some point in time we don't need older daily backups - we can safely delete any of them without breaking anything. Hardlinks are deaf to deletion of their kins.
+Should we decide at some point in time we don't need older daily backups - we can safely delete any of them (except the last one) without breaking anything. Hardlinks are deaf to deletion of their kins. If we delete the most recent backup - we might consider manually recreating the broken symlink so that it would point to the backup directory that stayed. If current symlink is broken or absent, then no hardl-inking occur and whole new 'hard-link trunk' is started and we waste hard disk space almost equal to the size of the backup.  
 
 ### Installing GNU utils on Mac OSX
 
