@@ -25,12 +25,13 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
   - use of exclude file
   - date-time suffix naming scheme:
 
-  ```
-  /Volumes/BK_DISK/home_backups/john.2015-05-28_235958
-  /Volumes/BK_DISK/home_backups/john.2015-05-29_215233
-  /Volumes/BK_DISK/home_backups/john.2015-05-30_120144
-  /Volumes/BK_DISK/home_backups/john.last_link -> john.2015-05-30_120144
-  ```
+```
+/Volumes/BK_DISK/home_backups/john.2015-05-28_235958
+/Volumes/BK_DISK/home_backups/john.2015-05-29_215233
+/Volumes/BK_DISK/home_backups/john.2015-05-30_120144
+/Volumes/BK_DISK/home_backups/john.last_link -> john.2015-05-30_120144
+#
+```
 
 here ```john.last_link``` is symlink to most recent backup directory ```john.2015-05-30_120144```
 
@@ -41,22 +42,66 @@ here ```john.last_link``` is symlink to most recent backup directory ```john.201
 
 ```
 sudo ./rsync-backup.sh /Users/john /Volumes/BK_DISK/home_backups
+#
 ```
 this command if you run it few times will produce the resulting directory structure as above.
 
-Another one:
+Another example with TAG=daily and explicit ignore list file '.bk_ignore' (should be made beforehand):
 ```
-sudo ./rsync-backup.sh -p daily / /Volumes/BK_DISK/full_backups
+sudo ./rsync-backup.sh -t daily -x /Users/john/.bk_ignore / /Volumes/BK_DISK/full_backups
+#
 ```
 if run 3 times in 3 days will result in:
 
-  ```
-  /Volumes/BK_DISK/home_backups/_ROOT_.2015-05-25_110101
-  /Volumes/BK_DISK/home_backups/_ROOT_.2015-05-26_120202
-  /Volumes/BK_DISK/home_backups/_ROOT_.2015-05-27_110303
-  /Volumes/BK_DISK/home_backups/_ROOT_.last_link -> _ROOT_.2015-05-27_110303
-  ```
+```
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-05-25_110101.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-05-26_120202.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-05-27_110303.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.last_link -> _ROOT_.2015-05-27_110303
+#
+```
 again, last line show a symlink which always points to the most recent backup directory.
+
+### About TAGs
+
+It looks like TAGs do nothing special except adding suffix to each of backup directories. But what is not so obvious is that if backups with different TAGs are specified to use the same base destination directory, then they do effectively use one and the same 'hard-linking trunk': each backup becomes the 'last' and is a target for 'last_link' symlink. This approach makes sense when we backup one and the same source directory so that backups do differ only by the time they are made.
+
+Otherwise TAGs are no more then mere a suffix which helps are visually separate backups.
+
+Let's loot at simple example backup plan to illustrate the point. Here is the crontab (root priviledged one) where we schedule 3 flavors (use 3 tags - 'daily', 'weekly' and 'montly') of backups with the same destination base directory like this (sudo crontab -l):
+
+```
+$ sudo crontab -l)
+SCRPT="/Users/john/scripts/rsync-backup.sh"
+DEST="/Volumes/BK_DISK/full_backups"
+
+0 10 * * 0-5 $SCRPT -t daily / $DEST
+0 11 * * 6 $SCRPT -t weekly / $DEST
+0 12 1 * * $SCRPT -t monthly / $DEST
+$
+#
+```
+
+Very soon this setup is going to produce the following:
+
+```
+$ ls -l
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-05-29_100000.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-05-30_100000.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-05-31_110000.weekly
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-06-01_100000.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-06-01_120000.monthly
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-06-02_100000.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-06-03_100000.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-06-04_100000.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-06-05_100000.daily
+/Volumes/BK_DISK/full_backups/_ROOT_.2015-06-06_110000.weekly
+/Volumes/BK_DISK/full_backups/_ROOT_.last_link -> _ROOT_.2015-06-06_110000.weekly
+$
+```
+Again, each time '_ROOT_.last_link' would point to the recent most backup - be it daily, weekly or monthly one - they all has equal unhuman rights for this purpose.
+
+Should we decide at some point in time we don't need older daily backups - we can safely delete any of them them without breaking anything. Hardlinks are deaf to deletion of their kins.
 
 ### Installing GNU utils on Mac OSX
 

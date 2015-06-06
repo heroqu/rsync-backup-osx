@@ -15,7 +15,10 @@
 ############################################################
 # Variables to modify
 
-EXCLUDFILE="/etc/backup-excludes.txt"
+EXCLUDE_FROM="/etc/backup-excludes.txt"
+# - read exclude patterns from specified file
+#   one can explicitly specify another FILE with -x option
+#   (see usage)
 DATEFORMAT="%F_%H%M%S"
 TIME_STAMP=$(date +"$DATEFORMAT")
 
@@ -38,7 +41,7 @@ RSYNC_UTIL='/usr/local/bin/rsync' # instead of regular '/usr/bin/rsync'
 
 # Main rsync options to be used
 
-RSYNC_OPTS="-a --delete --delete-excluded --exclude-from=$EXCLUDFILE -xSX"
+RSYNC_OPTS="-a --delete --delete-excluded --exclude-from=$EXCLUDE_FROM -xSX"
 
 # Attention to last tree ones:
 #
@@ -52,12 +55,16 @@ usage () {
   cat <<EOF
 
  usage:
-  $0 [-t TAG] [-v] SOURCE_PATH BACKUP_PATH
+  $0 [-t TAG] [-x EXCLUDE_FROM][-v] SOURCE_PATH BACKUP_PATH
   SOURCE_PATH and BACKUP_PATH may be ssh-style remote paths; although,
   BACKUP_PATH is usually a local directory where you want
     the backup set stored.
   -t : TAG.
-      Can be one of 'daily','weekly','monthly', 'yearly' or omitted.
+         Can be one of 'daily','weekly','monthly', 'yearly' or omitted.
+  -x : explicitly set the FILE for the following rsync option:
+         "--exclude-from=FILE     read exclude patterns from FILE"
+       when omitted, the following default value will be used:
+         "$EXCLUDE_FROM"
   -v : set verbose mode.
 
 EOF
@@ -72,10 +79,8 @@ VERBOSE=0
 TAG=''
 
 # options
-while getopts "vt:h" opt; do
+while getopts "t:x:vh" opt; do
   case $opt in
-    v) VERBOSE=1;;
-    # n ) NORMALIZE_PERMS=1;;
     t)
       case $OPTARG in
         daily) TAG='.daily';;
@@ -84,6 +89,19 @@ while getopts "vt:h" opt; do
         yearly) TAG='.yearly';;
       esac
     ;;
+    x)
+      EXCLUDE_FROM=$($READLINK_UTIL -f $OPTARG);
+      if [ ! -f $EXCLUDE_FROM ]; then
+        echo
+        echo "file specified in '-x EXCLUDE_FROM' option is not found"
+        echo "  $FILEPATH"
+        echo
+        usage
+        exit 1
+      fi
+    ;;
+    v) VERBOSE=1;;
+    # n ) NORMALIZE_PERMS=1;;
     h) usage
       exit 1;;
     \?) usage
@@ -122,43 +140,6 @@ else
 fi
 
 
-
-############################################################
-# great POSIX compliant pure bash function
-#   Credits go to
-#     https://sites.google.com/site/jdisnard/realpath
-real_path () {
-  OIFS=$IFS
-  IFS='/'
-  for I in $1
-  do
-    # Resolve relative path punctuation.
-    if [ "$I" = "." ] || [ -z "$I" ]
-      then continue
-    elif [ "$I" = ".." ]
-      then FOO="${FOO%%/${FOO##*/}}"
-           continue
-      else FOO="${FOO}/${I}"
-    fi
-
-    # Dereference symbolic links.
-    if [ -h "$FOO" ] && [ -x "/bin/ls" ]
-      then IFS=$OIFS
-           set `/bin/ls -l "$FOO"`
-           while shift ;
-           do
-             if [ "$1" = "->" ]
-               then FOO=$2
-                    shift $#
-                    break
-             fi
-           done
-    fi
-  done
-  IFS=$OIFS
-  echo "$FOO"
-}
-
 ############################################################
 # pseudo random string generator
 rndstr8()
@@ -179,13 +160,13 @@ if [ "${SOURCE_BASE}" = "/" ]; then
   SOURCE_BASE='_ROOT_'
 fi
 
-# Base of destination path canonically clarified
-DEST_BASE=$(real_path "${BACKUP_PATH}/${SOURCE_BASE}")
+# Destination base path
+DEST_BASE="${BACKUP_PATH%/}/${SOURCE_BASE}"
 
 ############################################################
 # Prepare some directory names
 
-# directory to place new backup to
+# Temporary directory to place new backup to
 BK_TMP="${DEST_BASE}.${TIME_STAMP}.$(rndstr8).tmp"
 
 mkdir -p "$BK_TMP"
