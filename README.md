@@ -73,7 +73,7 @@ Otherwise TAGs are no more then mere a suffix which helps to separate backups vi
 Let's look at simple example backup plan to illustrate the point. Here is the crontab (root privileged one) where we schedule 3 backup 'flavors' ('daily', 'weekly' and 'monthly') while specify the same destination base directory for all of them:
 
 ```
-$ sudo crontab -l)
+$ sudo crontab -l
 SCRPT="/Users/john/scripts/rsync-backup.sh"
 DEST="/Volumes/BK_DISK/full_backups"
 
