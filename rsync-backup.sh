@@ -60,7 +60,7 @@ usage () {
   BACKUP_PATH is usually a local directory where you want
     the backup set stored.
   -t : TAG
-         Can be one of 'hourly','daily','weekly','monthly','yearly' or omitted.
+         Can be one of 'hourly','daily','weekly','monthly','yearly','manual' or omitted.
          No suffix is added if TAG is omitted.
   -x : explicitly set the FILE for the following rsync option:
          "--exclude-from=FILE     read exclude patterns from FILE"
@@ -89,6 +89,7 @@ while getopts "t:x:vh" opt; do
         monthly) TAG='.monthly';;
         weekly) TAG='.weekly';;
         yearly) TAG='.yearly';;
+        manual) TAG='.manual';;
       esac
     ;;
     x)
