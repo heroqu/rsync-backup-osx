@@ -100,9 +100,9 @@ $ ls -l
 /Volumes/BK_DISK/full_backups/_ROOT_.last_link -> _ROOT_.2015-06-06_110000.weekly
 $
 ```
-Again, each time '_ROOT_.last_link' would point to the recent most backup - be it daily, weekly or monthly one - they all has equal unhuman rights for this purpose.
+Again, each time '_ROOT_.last_link' would point to the recent most backup - be it daily, weekly or monthly one - they all has equal human rights for this purpose.
 
-Should we decide at some point in time we don't need older daily backups - we can safely delete any of them them without breaking anything. Hardlinks are deaf to deletion of their kins.
+Should we decide at some point in time we don't need older daily backups - we can safely delete any of them without breaking anything. Hardlinks are deaf to deletion of their kins.
 
 ### Installing GNU utils on Mac OSX
 
