@@ -40,7 +40,7 @@ Use most simple and reliable *rsync + crontab* backup strategy that would effect
 - Use a symlink to the recent most backup as a layer of indirection to simplify finding last backup for the purpose of hardlinking. This symlink is to be updated after each new backup. This approach eliminates the necessity of 'round robin' way of renaming all previous backups. No need to rename anything, just keep a symlink to the last backup. If symlink is not there or is broken - one can recreate it manually. In the above listing ```john.last_link``` is that symlink to most recent backup directory ```john.2015-05-30_120144```.
 
 - Tagging backups with 'daily', 'weeky', 'monthly' or 'yearly' suffixes.
-  - Read [About TAGs](#about_tags) section for rationale behind using these TAGs.
+  - Read about rationale behind using these TAGs in [About TAGs](#about_tags) section of this page.
 
 ### Sample usage
 
