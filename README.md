@@ -27,8 +27,8 @@ Use most simple and reliable *rsync + crontab* backup strategy that would effect
   - no need for me personally yet.
     - Would be simple to accomplish with numbered scheme when destination directories are named ```bk.0```, ```bk.1```, ```bk.N``` - just shift dirs by 1 and delete the biggest numbered one.
     - Little more complicated if naming scheme is based on time stamping ```bk.2015-05-29```, ```bk.2015-05-28``` etc. In this case one can parse suffixes or just rely on creation date. Again, I personally don't need it yet.
-- exclude list usage in to prevent certain directories from archiving.
-- Use time stamp suffix naming scheme:
+- Option to use *exclude list* to prevent certain directories from archiving.
+- Time stamp suffix naming scheme:
 
 ```
 /Volumes/BK_DISK/home_backups/john.2015-05-28_235958
@@ -37,9 +37,12 @@ Use most simple and reliable *rsync + crontab* backup strategy that would effect
 /Volumes/BK_DISK/home_backups/john.last_link -> john.2015-05-30_120144
 ...
 ```
-- Use a symlink to the recent most backup as a layer of indirection to simplify finding last backup for the purpose of hardlinking. This symlink is to be updated after each new backup. This approach eliminates the necessity of 'round robin' way of renaming all previous backups. No need to rename anything, just keep a symlink to the last backup. If symlink is not there or is broken - one can recreate it manually. In the above listing ```john.last_link``` is that symlink to most recent backup directory ```john.2015-05-30_120144```.
+- Use a symlink to the recent most backup as a layer of indirection to simplify finding last backup for the purpose of hard-linking. The symlink is to be automatically updated after each new backup.
+  - This approach eliminates the necessity of 'round robin' way of renaming all previous backups. No need to rename anything, just keep a symlink to the last backup.
+  - If symlink is not there or is broken - one can recreate it manually.
+  - In the above listing ```john.last_link``` is that symlink to most recent backup directory ```john.2015-05-30_120144```.
 
-- Tagging backups with 'daily', 'weeky', 'monthly' or 'yearly' suffixes.
+- Tagging backups with 'hourly', 'daily', 'weeky', 'monthly' or 'yearly' suffixes.
   - Read about rationale behind using these TAGs in [About TAGs](#about_tags) section of this page.
 
 ### Sample usage
