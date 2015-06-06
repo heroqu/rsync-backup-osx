@@ -9,7 +9,7 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 ### Credits and inspiration
 
 + Some [enlightment](http://www.jwz.org/blog/2007/09/psa-backups/) from Jamie Zawinski to heal the brain
-+ Mike Rubel [Easy Automated Snapshot-Style Backups with Linux and Rsync](http://www.mikerubel.org/computers/rsync_snapshots/) arctile - great short 'Intro' reading on backup strategies and hardlinking.
++ Mike Rubel's [Easy Automated Snapshot-Style Backups with Linux and Rsync](http://www.mikerubel.org/computers/rsync_snapshots/) arctile - great short 'Intro' reading on backup strategies and hardlinking.
 + Noah's backup [script](http://www.noah.org/wiki/Rsync_backup).
 + Great [blog & script](http://nicolasgallagher.com/mac-osx-bootable-backup-drive-with-rsync) by Nicolas Gallagher.
 + Marian Boricean's [Using rsync as a backup solution](http://dantux.com/weblog/2009/03/23/using-rsync-as-a-backup-solution/)
@@ -19,18 +19,22 @@ Use most simple and reliable rsync + crontab backup scheme that would effectivel
 
 - script should use hard linking to last successful backup of "similar signature" to save space and time
   - there are two ways to do it I know of: ```cp -l``` and ```rsync --link-dest```, I've chosen the first one
+- should be simple to use and setup
+  - use crontab
+- Be adjusted to Mac OSX environment which is often filled with outright outdated UNIX utils
+  - use fresh GNU utils instead
 - no deletion of older backups
   - no need for me personally yet. Simple to do with numbered style of backing up when directories are named bk.0, bk.1, bk.N - just shift dirs by 1 and delete the biggest numbered one.
   Little more complicated if naming scheme is ```bk.2015-05-29```, ```bk.2015-05-28``` etc. - one can parse suffixes or just rely on creation date. Again, I don't need it yet.
-  - use of exclude file
-  - date-time suffix naming scheme:
+- use of exclude file
+- date-time suffix naming scheme:
 
 ```
 /Volumes/BK_DISK/home_backups/john.2015-05-28_235958
 /Volumes/BK_DISK/home_backups/john.2015-05-29_215233
 /Volumes/BK_DISK/home_backups/john.2015-05-30_120144
 /Volumes/BK_DISK/home_backups/john.last_link -> john.2015-05-30_120144
-#
+...
 ```
 
 here ```john.last_link``` is symlink to most recent backup directory ```john.2015-05-30_120144```
@@ -41,15 +45,15 @@ here ```john.last_link``` is symlink to most recent backup directory ```john.201
 ### Sample usage
 
 ```
-sudo ./rsync-backup.sh /Users/john /Volumes/BK_DISK/home_backups
-#
+$ sudo ./rsync-backup.sh /Users/john /Volumes/BK_DISK/home_backups
+$
 ```
 this command if you run it few times will produce the resulting directory structure as above.
 
 Another example with TAG=daily and explicit ignore list file '.bk_ignore' (should be made beforehand):
 ```
-sudo ./rsync-backup.sh -t daily -x /Users/john/.bk_ignore / /Volumes/BK_DISK/full_backups
-#
+$ sudo ./rsync-backup.sh -t daily -x /Users/john/.bk_ignore / /Volumes/BK_DISK/full_backups
+$
 ```
 if run 3 times in 3 days will result in:
 
