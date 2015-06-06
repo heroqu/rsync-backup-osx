@@ -1,10 +1,10 @@
 # rsync-backup-osx
 
-Rsync based backup script for \*NIX systems, especially adapted for *Mac OS*
+Rsync based backup script and strategy for \*NIX systems, especially adapted for *Mac OSX*
 
 ### Motivation
 
-Use most simple and reliable *rsync + crontab* backup strategy that would effectively replace time-machine functionality of Mac OSX.
+Use most simple and reliable *rsync + crontab* differential backup strategy that would effectively replace time-machine functionality of Mac OSX.
 
 ### Credits and inspiration
 
