@@ -73,7 +73,7 @@ It looks like TAGs do nothing special except adding suffix to each of backup dir
 
 Otherwise TAGs are no more then mere a suffix which helps to separate backups visually.
 
-Let's look at simple example backup plan to illustrate the point. Here is the crontab (root privileged one) where we schedule 3 backup 'flavors' ('daily', 'weekly' and 'monthly') while specify the same destination base directory for all of them:
+Let's look at simple example backup plan to illustrate the point. Here is the crontab (root privileged one) where we schedule 3 backup 'flavors' ('daily', 'weekly' and 'monthly') while specifying the same destination base directory for all of them:
 
 ```
 $ sudo crontab -l
@@ -86,7 +86,7 @@ DEST="/Volumes/BK_DISK/full_backups"
 0 12 1 * * $SCRPT -t monthly $SRC $DEST
 $
 ```
-What is says is that:
+What it says is is that:
 - we want to do backups at 3 different schedules
 - each of these schedules will backup whole root file system (SRC="/")
 - each of these schedules will put backups to the same base destination directory "/Volumes/BK_DISK/full_backups"
